@@ -1,78 +1,40 @@
 <?php
+declare(strict_types=1);
 
 namespace App;
+
+use App\Strategy\ConcertStrategy;
+use App\Strategy\LegendaryStrategy;
+use App\Strategy\RegularStrategy;
+use App\Strategy\StrategyInterface;
+use App\Strategy\WellAgingStrategy;
 
 final class GildedRose
 {
 
 
-    const ITEM_WELL_AGING = 'Aged Brie';
-    const ITEM_LEGENDARY = 'Sulfuras, Hand of Ragnaros';
-    const ITEM_CONCERT = 'Backstage passes to a TAFKAL80ETC concert';
-
     public function updateItem(Item $item): void
     {
-        if ($item->name == self::ITEM_LEGENDARY) {
-            return;
-        }
-
-        $item->sellIn = $item->sellIn - 1;
-        if ($item->sellIn < 0) {
-            $this->handleExpired($item);
-        } else {
-            $this->updateQuality($item);
-        }
-
-        if ($item->quality > 50) {
-            $item->quality = 50;
-        } else if ($item->quality < 0) {
-            $item->quality = 0;
+        $strategy = $this->pickStrategy($item);
+        $item->quality = $strategy->recalculateQuality($item);
+        if ($strategy->shouldDecrementSellIn()) {
+            $item->sellIn--;
         }
     }
 
-    private function handleExpired(Item $item): void
+    private function pickStrategy(Item $item): StrategyInterface
     {
-        switch ($item->name) {
-            case self::ITEM_WELL_AGING: {
-                $item->quality += 2;
-                break;
-            }
-            case self::ITEM_CONCERT: {
-                $item->quality = 0;
-                break;
-            }
-            default: {
-                $item->quality -= 2;
-            }
-        }
+        return match ($item->name) {
+            'Aged Brie',
+                => new WellAgingStrategy(),
+
+            'Sulfuras, Hand of Ragnaros',
+                => new LegendaryStrategy(),
+
+            'Backstage passes to a TAFKAL80ETC concert',
+                => new ConcertStrategy(),
+
+            default => new RegularStrategy(),
+        };
     }
-
-    private function updateQuality(Item $item): void
-    {
-        switch ($item->name) {
-            case self::ITEM_WELL_AGING: {
-                $item->quality++;
-
-                break;
-            }
-            case self::ITEM_CONCERT: {
-                $is10DaysOrLess = $item->sellIn < 10;
-                $is5DaysOrLess = $item->sellIn < 5;
-
-                if ($is5DaysOrLess) {
-                    $item->quality += 3;
-                } else if ($is10DaysOrLess) {
-                    $item->quality += 2;
-                } else {
-                    $item->quality++;
-                }
-
-                break;
-            }
-            default: {
-                $item->quality--;
-            }
-        }
-    }
-
 }
