@@ -24,7 +24,7 @@ class GildedRoseTest extends TestCase
         $item = new Item($name, $sellIn, $quality);
 
         $gildedRose = new GildedRose();
-        $gildedRose->updateQuality($item);
+        $gildedRose->updateItem($item);
 
         $this->assertEquals($expectedSellIn, $item->sellIn);
         $this->assertEquals($expectedQuality, $item->quality);
@@ -42,7 +42,9 @@ class GildedRoseTest extends TestCase
             'Aged Brie after_sell in date with maximum quality' => ['Aged Brie', -10, 50, -11, 50],
             'Backstage passes before sell in date' => ['Backstage passes to a TAFKAL80ETC concert', 10, 10, 9, 12],
             'Backstage passes more than 10 days before sell in date' => ['Backstage passes to a TAFKAL80ETC concert', 11, 10, 10, 11],
+            'Backstage passes ten days before sell in date' => ['Backstage passes to a TAFKAL80ETC concert', 10, 10, 9, 12],
             'Backstage passes five days before sell in date' => ['Backstage passes to a TAFKAL80ETC concert', 5, 10, 4, 13],
+            'Backstage passes six days before sell in date' => ['Backstage passes to a TAFKAL80ETC concert', 6, 10, 5, 12],
             'Backstage passes sell in date' => ['Backstage passes to a TAFKAL80ETC concert', 0, 10, -1, 0],
             'Backstage passes close to sell in date with maximum quality' => ['Backstage passes to a TAFKAL80ETC concert', 10, 50, 9, 50],
             'Backstage passes very close to sell in date with maximum quality' => ['Backstage passes to a TAFKAL80ETC concert', 5, 50, 4, 50],
