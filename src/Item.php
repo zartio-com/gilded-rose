@@ -4,19 +4,19 @@ namespace App;
 
 final class Item
 {
-    public $name;
-    public $sell_in;
-    public $quality;
 
-    function __construct($name, $sell_in, $quality)
+
+    function __construct(
+        public string $name,
+        public int    $sellIn,
+        public int    $quality
+    )
     {
-        $this->name = $name;
-        $this->sell_in = $sell_in;
-        $this->quality = $quality;
+
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return "{$this->name}, {$this->sell_in}, {$this->quality}";
+        return "{$this->name}, {$this->sellIn}, {$this->quality}";
     }
 }
