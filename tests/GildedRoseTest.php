@@ -35,12 +35,13 @@ class GildedRoseTest extends TestCase
     {
         return [
             'Aged Brie before sell in date' => ['Aged Brie', 10, 10, 9, 11],
+            'Aged Brie right before sell in date' => ['Aged Brie', 1, 10, 0, 11],
             'Aged Brie sell in date' => ['Aged Brie', 0, 10, -1, 12],
             'Aged Brie after sell in date' => ['Aged Brie', -5, 10, -6, 12],
             'Aged Brie before sell in date with maximum quality' => ['Aged Brie', 5, 50, 4, 50],
             'Aged Brie sell in date near maximum quality' => ['Aged Brie', 0, 49, -1, 50],
             'Aged Brie sell in date with maximum quality' => ['Aged Brie', 0, 50, -1, 50],
-            'Aged Brie after_sell in date with maximum quality' => ['Aged Brie', -10, 50, -11, 50],
+            'Aged Brie after sell in date with maximum quality' => ['Aged Brie', -10, 50, -11, 50],
             'Backstage passes before sell in date' => ['Backstage passes to a TAFKAL80ETC concert', 10, 10, 9, 12],
             'Backstage passes more than 10 days before sell in date' => ['Backstage passes to a TAFKAL80ETC concert', 11, 10, 10, 11],
             'Backstage passes ten days before sell in date' => ['Backstage passes to a TAFKAL80ETC concert', 10, 10, 9, 12],
@@ -55,6 +56,8 @@ class GildedRoseTest extends TestCase
             'Sulfuras after sell in date' => ['Sulfuras, Hand of Ragnaros', -1, 80, -1, 80],
             'Elixir of the Mongoose before sell in date' => ['Elixir of the Mongoose', 10, 10, 9, 9],
             'Elixir of the Mongoose sell in date' => ['Elixir of the Mongoose', 0, 10, -1, 8],
+            'Elixir of the Mongoose right before sell in date' => ['Elixir of the Mongoose', 1, 10, 0, 9],
+            'Elixir of the Mongoose minimum quality' => ['Elixir of the Mongoose', 0, 0, -1, 0],
         ];
     }
 }
